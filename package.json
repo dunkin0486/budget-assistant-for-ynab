@@ -1,0 +1,24 @@
+{
+  "name": "budget-assistant-for-ynab",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Remote MCP server letting Claude answer questions about a YNAB budget, via OAuth (not affiliated with or supported by YNAB).",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "cf-typegen": "wrangler types"
+  },
+  "dependencies": {
+    "@cloudflare/workers-oauth-provider": "^0.10.3",
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "agents": "^0.23.0",
+    "zod": "^4.6.2"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260911.1",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.131.1"
+  }
+}

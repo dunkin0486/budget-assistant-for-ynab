@@ -1,0 +1,49 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "budget-assistant-for-ynab",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+
+  // Durable Object that backs each authenticated MCP session (holds the
+  // live YNAB token pair via McpAgent's props/storage). See
+  // docs/hosting-options.md and docs/tool-design-patterns.md for why this
+  // is a Durable Object and not Workers KV.
+  "durable_objects": {
+    "bindings": [
+      { "name": "MCP_OBJECT", "class_name": "BudgetAssistantMCP" }
+    ]
+  },
+  "migrations": [
+    { "tag": "v1", "new_sqlite_classes": ["BudgetAssistantMCP"] }
+  ],
+
+  // Required by @cloudflare/workers-oauth-provider for its own grant/token
+  // storage (the downstream token WE issue to Claude, not the upstream
+  // YNAB token). Run `wrangler kv namespace create OAUTH_KV` and paste the
+  // returned id here before deploying.
+  "kv_namespaces": [
+    {
+      "binding": "OAUTH_KV",
+      "id": "REPLACE_WITH_KV_NAMESPACE_ID"
+    }
+  ],
+
+  // Non-secret config. Update these once the companion website
+  // (docs/website-and-contact-email.md) is live -- until then they point
+  // at the drafts in this repo's docs/ folder directly.
+  "vars": {
+    "PRIVACY_POLICY_URL": "REPLACE_WITH_PRIVACY_POLICY_URL",
+    "TERMS_URL": "REPLACE_WITH_TERMS_URL"
+  },
+
+  "observability": {
+    "logs": {
+      "enabled": true
+      // See docs/privacy-policy.md's 30-day log retention commitment --
+      // configure retention in the Cloudflare dashboard (Workers Logs)
+      // to match. Code in this project deliberately never logs request/
+      // response bodies -- see src/ynab-client.ts.
+    }
+  }
+}
