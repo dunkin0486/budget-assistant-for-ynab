@@ -24,6 +24,12 @@ edits, or deletes anything — see `docs/privacy-policy.md`.
   supported" disclaimer as an explicit checkbox on the consent screen
   before redirecting to YNAB — required by YNAB's OAuth Application
   Requirements, not just a nicety.
+- **Infrastructure** (the KV namespace now; DNS/Pages/Email Routing once
+  the domain decision in `docs/website-and-contact-email.md` is made) is
+  managed via OpenTofu in `infra/`, kept separate from the Worker code
+  deploy itself (`wrangler deploy` handles bundling the TypeScript + npm
+  dependencies, which Terraform's own Workers deploy resources don't do
+  for you) — see `infra/README.md` for the reasoning.
 
 ## Setup
 
@@ -36,11 +42,9 @@ edits, or deletes anything — see `docs/privacy-policy.md`.
    (25-user cap) — request removal early, per the same doc, since it's a
    2-4 week review.
 
-2. **Create the required KV namespace**:
-   ```
-   npx wrangler kv namespace create OAUTH_KV
-   ```
-   Paste the returned `id` into `wrangler.jsonc`.
+2. **Create the required KV namespace via OpenTofu** — see `infra/README.md`
+   for the full setup (scoped API token, account ID, `tofu apply`). Then
+   paste `tofu output oauth_kv_namespace_id`'s value into `wrangler.jsonc`.
 
 3. **Install dependencies**:
    ```
