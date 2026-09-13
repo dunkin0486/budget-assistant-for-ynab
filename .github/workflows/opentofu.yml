@@ -1,0 +1,130 @@
+name: OpenTofu
+
+# Manages ../infra (account-level Cloudflare infrastructure -- currently
+# just the OAUTH_KV namespace). Does NOT deploy the Worker itself -- that
+# stays a manual `wrangler deploy` per README.md, see infra/README.md for
+# why the two are kept separate.
+#
+# pull_request -> plan only, posted as a PR comment for review.
+# push to main -> apply. State lives in a Cloudflare R2 bucket (see
+# infra/versions.tf) since Actions runners don't persist a local
+# terraform.tfstate between runs.
+
+on:
+  pull_request:
+    paths:
+      - "infra/**"
+      - ".github/workflows/opentofu.yml"
+  push:
+    branches: [main]
+    paths:
+      - "infra/**"
+      - ".github/workflows/opentofu.yml"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+defaults:
+  run:
+    working-directory: infra
+    shell: bash
+
+env:
+  # Consumed by the cloudflare provider (infra/provider.tf) -- separate
+  # from the R2 access key/secret below, which authenticate the S3-
+  # compatible state backend, not the provider.
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  TF_VAR_cloudflare_account_id: ${{ vars.TF_VAR_CLOUDFLARE_ACCOUNT_ID }}
+
+jobs:
+  plan:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: opentofu/setup-opentofu@v1
+        with:
+          tofu_version: "1.12.6"
+
+      - name: Write backend config
+        run: |
+          cat > backend.hcl <<EOF
+          bucket                      = "budget-assistant-for-ynab-opentofu-state"
+          key                         = "terraform.tfstate"
+          region                      = "auto"
+          skip_credentials_validation = true
+          skip_metadata_api_check     = true
+          skip_region_validation      = true
+          skip_requesting_account_id  = true
+          skip_s3_checksum            = true
+          use_path_style              = true
+          access_key                  = "${{ secrets.TOFU_R2_ACCESS_KEY_ID }}"
+          secret_key                  = "${{ secrets.TOFU_R2_SECRET_ACCESS_KEY }}"
+          endpoints = { s3 = "https://${{ vars.TF_VAR_CLOUDFLARE_ACCOUNT_ID }}.r2.cloudflarestorage.com" }
+          EOF
+
+      - name: tofu init
+        run: tofu init -backend-config=backend.hcl -input=false
+
+      - name: tofu validate
+        run: tofu validate
+
+      - name: tofu plan
+        run: tofu plan -no-color -input=false > plan.txt 2>&1
+
+      - name: Comment plan on PR
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let plan;
+            try {
+              plan = fs.readFileSync('infra/plan.txt', 'utf8').slice(0, 60000);
+            } catch {
+              plan = '(no plan output -- tofu init or validate likely failed; see the job log)';
+            }
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `#### OpenTofu Plan\n<details><summary>Show plan</summary>\n\n\`\`\`\n${plan}\n\`\`\`\n\n</details>`,
+            });
+
+  apply:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: opentofu/setup-opentofu@v1
+        with:
+          tofu_version: "1.12.6"
+
+      - name: Write backend config
+        run: |
+          cat > backend.hcl <<EOF
+          bucket                      = "budget-assistant-for-ynab-opentofu-state"
+          key                         = "terraform.tfstate"
+          region                      = "auto"
+          skip_credentials_validation = true
+          skip_metadata_api_check     = true
+          skip_region_validation      = true
+          skip_requesting_account_id  = true
+          skip_s3_checksum            = true
+          use_path_style              = true
+          access_key                  = "${{ secrets.TOFU_R2_ACCESS_KEY_ID }}"
+          secret_key                  = "${{ secrets.TOFU_R2_SECRET_ACCESS_KEY }}"
+          endpoints = { s3 = "https://${{ vars.TF_VAR_CLOUDFLARE_ACCOUNT_ID }}.r2.cloudflarestorage.com" }
+          EOF
+
+      - name: tofu init
+        run: tofu init -backend-config=backend.hcl -input=false
+
+      - name: tofu apply
+        run: tofu apply -auto-approve -input=false
+
+      - name: Show outputs
+        run: tofu output
