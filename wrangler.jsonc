@@ -20,12 +20,13 @@
 
   // Required by @cloudflare/workers-oauth-provider for its own grant/token
   // storage (the downstream token WE issue to Claude, not the upstream
-  // YNAB token). Run `wrangler kv namespace create OAUTH_KV` and paste the
-  // returned id here before deploying.
+  // YNAB token). Managed by OpenTofu (infra/kv.tf), applied via
+  // .github/workflows/opentofu.yml -- this id is that resource's output,
+  // pasted in manually per infra/README.md.
   "kv_namespaces": [
     {
       "binding": "OAUTH_KV",
-      "id": "REPLACE_WITH_KV_NAMESPACE_ID"
+      "id": "4b85ab1f1b7e4aea8ea10d530b6738f3"
     }
   ],
 
