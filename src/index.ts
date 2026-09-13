@@ -22,12 +22,11 @@ export default new OAuthProvider<Env>({
   // Claude, which is a single undifferentiated grant for now.
   scopesSupported: ["ynab:read"],
 
-  // TODO: replace with the actual deployed URL (the *.workers.dev default,
-  // or a custom domain once docs/website-and-contact-email.md's domain
-  // decision is made) before going live.
+  // Update again once docs/website-and-contact-email.md's domain decision
+  // (#5) lands and this moves to a custom domain instead of *.workers.dev.
   resourceMetadata: {
-    resource: "https://budget-assistant-for-ynab.workers.dev/mcp",
-    authorization_servers: ["https://budget-assistant-for-ynab.workers.dev"],
+    resource: "https://budget-assistant-for-ynab.dunkin0486.workers.dev/mcp",
+    authorization_servers: ["https://budget-assistant-for-ynab.dunkin0486.workers.dev"],
     scopes_supported: ["ynab:read"],
     resource_name: "Budget Assistant for YNAB",
   },

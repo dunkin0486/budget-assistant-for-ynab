@@ -31,11 +31,12 @@
   ],
 
   // Non-secret config. Update these once the companion website
-  // (docs/website-and-contact-email.md) is live -- until then they point
-  // at the drafts in this repo's docs/ folder directly.
+  // (docs/website-and-contact-email.md, #5) is live -- until then they
+  // point at the drafts in this repo's docs/ folder directly (the repo is
+  // public specifically so these are reachable).
   "vars": {
-    "PRIVACY_POLICY_URL": "REPLACE_WITH_PRIVACY_POLICY_URL",
-    "TERMS_URL": "REPLACE_WITH_TERMS_URL"
+    "PRIVACY_POLICY_URL": "https://github.com/dunkin0486/budget-assistant-for-ynab/blob/main/docs/privacy-policy.md",
+    "TERMS_URL": "https://github.com/dunkin0486/budget-assistant-for-ynab/blob/main/docs/terms-of-service.md"
   },
 
   "observability": {
