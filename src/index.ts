@@ -15,6 +15,13 @@ export default new OAuthProvider<Env>({
   authorizeEndpoint: "/authorize",
   tokenEndpoint: "/token",
 
+  // Lets Claude authenticate using its own Anthropic-published client
+  // identity (Client ID Metadata Document) instead of this server having
+  // to run Dynamic Client Registration. Needs the 'global_fetch_strictly_public'
+  // compatibility flag (already set in wrangler.jsonc) so the fetch this
+  // triggers can't be pointed at internal/private addresses.
+  clientIdMetadataDocumentEnabled: true,
+
   // YNAB's OAuth app model has no granular scopes (see
   // docs/ynab-guidelines-and-oauth.md) -- this connector's own tool
   // surface is what stays read-only, not anything YNAB enforces on the
