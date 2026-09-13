@@ -2,6 +2,7 @@ import { McpAgent } from "agents/mcp";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import type { Env, YnabProps } from "./types.js";
+import { lastNMonths } from "./date-utils.js";
 import { YnabClient, refreshYnabToken } from "./ynab-client.js";
 
 // Refresh a bit before actual expiry to avoid a request racing an
@@ -157,16 +158,4 @@ export class BudgetAssistantMCP extends McpAgent<Env, unknown, YnabProps> {
       },
     );
   }
-}
-
-/** Returns the last n months as "YYYY-MM-01" strings, oldest first, ending
- * with the current month. */
-function lastNMonths(n: number): string[] {
-  const months: string[] = [];
-  const now = new Date();
-  for (let i = n - 1; i >= 0; i--) {
-    const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - i, 1));
-    months.push(d.toISOString().slice(0, 8) + "01");
-  }
-  return months;
 }

@@ -54,7 +54,12 @@ async function handleAuthorize(request: Request, env: Env): Promise<Response> {
 }
 
 async function handleAuthorizeApproval(request: Request, env: Env): Promise<Response> {
-  const form = await request.formData();
+  let form: FormData;
+  try {
+    form = await request.formData();
+  } catch {
+    return new Response("Missing or malformed form body.", { status: 400 });
+  }
   const encodedRequest = form.get("state");
   const acknowledged = form.get("acknowledged") === "on";
 

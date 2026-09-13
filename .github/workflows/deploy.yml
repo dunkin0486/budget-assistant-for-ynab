@@ -1,0 +1,71 @@
+name: Deploy
+
+# Builds and deploys the Worker itself (src/**) -- separate from
+# .github/workflows/opentofu.yml, which manages account-level
+# infrastructure (see infra/README.md for why those stay split).
+#
+# pull_request -> typecheck + unit tests only, no deploy.
+# push to main -> typecheck + unit tests, then `wrangler deploy`.
+
+on:
+  pull_request:
+    paths:
+      - "src/**"
+      - "wrangler.jsonc"
+      - "package.json"
+      - "package-lock.json"
+      - "tsconfig.json"
+      - "vitest.config.ts"
+      - ".github/workflows/deploy.yml"
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "wrangler.jsonc"
+      - "package.json"
+      - "package-lock.json"
+      - "tsconfig.json"
+      - "vitest.config.ts"
+      - ".github/workflows/deploy.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - run: npm ci
+
+      - run: npm run typecheck
+
+      - run: npm test
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - run: npm ci
+
+      # Only deploys code + non-secret vars/bindings already in
+      # wrangler.jsonc. Does not touch the YNAB_CLIENT_ID/SECRET/
+      # REDIRECT_URI Worker secrets set separately via `wrangler secret put`
+      # -- those persist across deploys untouched.
+      - run: npx wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_DEPLOY_API_TOKEN }}
