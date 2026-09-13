@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { YnabApiError, YnabClient, exchangeYnabCode, refreshYnabToken } from "./ynab-client.js";
 import type { Env } from "./types.js";
+import { exchangeYnabCode, refreshYnabToken, YnabApiError, YnabClient } from "./ynab-client.js";
 
 function jsonResponse(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), {
@@ -38,7 +38,9 @@ describe("YnabClient", () => {
   it("getBudgetMonth builds the path from budgetId and month", async () => {
     fetchMock.mockResolvedValue(
       jsonResponse({
-        data: { month: { month: "2026-09-01", to_be_budgeted: 0, age_of_money: 12, categories: [] } },
+        data: {
+          month: { month: "2026-09-01", to_be_budgeted: 0, age_of_money: 12, categories: [] },
+        },
       }),
     );
 
@@ -114,7 +116,12 @@ describe("token exchange", () => {
 
   it("exchangeYnabCode posts the authorization_code grant with client credentials", async () => {
     fetchMock.mockResolvedValue(
-      jsonResponse({ access_token: "at", refresh_token: "rt", expires_in: 7200, token_type: "bearer" }),
+      jsonResponse({
+        access_token: "at",
+        refresh_token: "rt",
+        expires_in: 7200,
+        token_type: "bearer",
+      }),
     );
 
     const tokens = await exchangeYnabCode(env, "auth-code-123");
@@ -132,7 +139,12 @@ describe("token exchange", () => {
 
   it("refreshYnabToken posts the refresh_token grant", async () => {
     fetchMock.mockResolvedValue(
-      jsonResponse({ access_token: "at2", refresh_token: "rt2", expires_in: 7200, token_type: "bearer" }),
+      jsonResponse({
+        access_token: "at2",
+        refresh_token: "rt2",
+        expires_in: 7200,
+        token_type: "bearer",
+      }),
     );
 
     await refreshYnabToken(env, "old-refresh-token");

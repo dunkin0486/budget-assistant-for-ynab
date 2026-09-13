@@ -10,13 +10,9 @@
   // docs/hosting-options.md and docs/tool-design-patterns.md for why this
   // is a Durable Object and not Workers KV.
   "durable_objects": {
-    "bindings": [
-      { "name": "MCP_OBJECT", "class_name": "BudgetAssistantMCP" }
-    ]
+    "bindings": [{ "name": "MCP_OBJECT", "class_name": "BudgetAssistantMCP" }]
   },
-  "migrations": [
-    { "tag": "v1", "new_sqlite_classes": ["BudgetAssistantMCP"] }
-  ],
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["BudgetAssistantMCP"] }],
 
   // Required by @cloudflare/workers-oauth-provider for its own grant/token
   // storage (the downstream token WE issue to Claude, not the upstream

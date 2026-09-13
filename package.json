@@ -10,6 +10,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
@@ -19,6 +21,7 @@
     "zod": "^4.6.2"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.5.13",
     "@cloudflare/workers-types": "^5.20260911.1",
     "@vitest/coverage-v8": "^5.0.0",
     "typescript": "^5.9.3",

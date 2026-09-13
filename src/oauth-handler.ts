@@ -1,6 +1,6 @@
 import { AuthorizationError, type AuthRequest } from "@cloudflare/workers-oauth-provider";
 import type { Env, YnabProps } from "./types.js";
-import { YNAB_AUTHORIZE_URL, YnabClient, exchangeYnabCode } from "./ynab-client.js";
+import { exchangeYnabCode, YNAB_AUTHORIZE_URL, YnabClient } from "./ynab-client.js";
 
 /**
  * Handles the two unprotected routes: /authorize (our own consent screen,
@@ -144,8 +144,9 @@ function decodeState(encoded: string): AuthRequest {
 }
 
 function consentPageHtml(clientName: string, encodedRequest: string, env: Env): string {
-  const escapedClientName = clientName.replace(/[&<>"']/g, (c) =>
-    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] as string,
+  const escapedClientName = clientName.replace(
+    /[&<>"']/g,
+    (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] as string,
   );
   return `<!doctype html>
 <html>

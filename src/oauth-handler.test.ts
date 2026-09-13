@@ -1,5 +1,9 @@
+import {
+  AuthorizationError,
+  type AuthRequest,
+  type ClientInfo,
+} from "@cloudflare/workers-oauth-provider";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { AuthorizationError, type AuthRequest, type ClientInfo } from "@cloudflare/workers-oauth-provider";
 import oauthHandler from "./oauth-handler.js";
 import type { Env } from "./types.js";
 
@@ -105,7 +109,7 @@ describe("GET /authorize", () => {
     expect(html).toContain("&lt;script&gt;Claude&lt;/script&gt;");
     expect(html).toContain(env.PRIVACY_POLICY_URL);
     expect(html).toContain(env.TERMS_URL);
-    expect(html).toContain('not made, endorsed, or officially supported by YNAB');
+    expect(html).toContain("not made, endorsed, or officially supported by YNAB");
     expect(html).toContain('name="state"');
   });
 });
@@ -145,10 +149,7 @@ describe("POST /authorize", () => {
     const env = makeEnv();
     const encoded = encodeState(baseAuthRequest);
 
-    const response = await oauthHandler.fetch(
-      post({ state: encoded, acknowledged: "on" }),
-      env,
-    );
+    const response = await oauthHandler.fetch(post({ state: encoded, acknowledged: "on" }), env);
 
     expect(response.status).toBe(302);
     const location = new URL(response.headers.get("Location")!);

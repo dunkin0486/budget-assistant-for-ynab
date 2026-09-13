@@ -1,9 +1,9 @@
-import { McpAgent } from "agents/mcp";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { McpAgent } from "agents/mcp";
 import { z } from "zod";
-import type { Env, YnabProps } from "./types.js";
 import { lastNMonths } from "./date-utils.js";
-import { YnabClient, refreshYnabToken } from "./ynab-client.js";
+import type { Env, YnabProps } from "./types.js";
+import { refreshYnabToken, YnabClient } from "./ynab-client.js";
 
 // Refresh a bit before actual expiry to avoid a request racing an
 // about-to-expire token.
@@ -138,7 +138,10 @@ export class BudgetAssistantMCP extends McpAgent<Env, unknown, YnabProps> {
           "List transactions for a budget, optionally filtered to one category and/or a start date. Useful for finding what specifically drove a category's spending (e.g. after get_category_history shows a spike).",
         inputSchema: z.object({
           budget_id: z.string(),
-          category_id: z.string().optional().describe("Limit to one category, from get_budget_month."),
+          category_id: z
+            .string()
+            .optional()
+            .describe("Limit to one category, from get_budget_month."),
           since_date: z
             .string()
             .optional()

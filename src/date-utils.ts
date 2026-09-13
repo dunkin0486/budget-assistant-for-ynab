@@ -5,7 +5,7 @@ export function lastNMonths(n: number): string[] {
   const now = new Date();
   for (let i = n - 1; i >= 0; i--) {
     const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - i, 1));
-    months.push(d.toISOString().slice(0, 8) + "01");
+    months.push(`${d.toISOString().slice(0, 8)}01`);
   }
   return months;
 }
