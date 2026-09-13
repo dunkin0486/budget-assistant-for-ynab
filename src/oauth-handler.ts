@@ -1,6 +1,6 @@
 import { AuthorizationError, type AuthRequest } from "@cloudflare/workers-oauth-provider";
 import type { Env, YnabProps } from "./types.js";
-import { YNAB_AUTHORIZE_URL, YnabClient, exchangeYnabCode } from "./ynab-client.js";
+import { exchangeYnabCode, YNAB_AUTHORIZE_URL, YnabClient } from "./ynab-client.js";
 
 /**
  * Handles the two unprotected routes: /authorize (our own consent screen,
@@ -54,7 +54,12 @@ async function handleAuthorize(request: Request, env: Env): Promise<Response> {
 }
 
 async function handleAuthorizeApproval(request: Request, env: Env): Promise<Response> {
-  const form = await request.formData();
+  let form: FormData;
+  try {
+    form = await request.formData();
+  } catch {
+    return new Response("Missing or malformed form body.", { status: 400 });
+  }
   const encodedRequest = form.get("state");
   const acknowledged = form.get("acknowledged") === "on";
 
@@ -139,8 +144,9 @@ function decodeState(encoded: string): AuthRequest {
 }
 
 function consentPageHtml(clientName: string, encodedRequest: string, env: Env): string {
-  const escapedClientName = clientName.replace(/[&<>"']/g, (c) =>
-    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] as string,
+  const escapedClientName = clientName.replace(
+    /[&<>"']/g,
+    (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] as string,
   );
   return `<!doctype html>
 <html>

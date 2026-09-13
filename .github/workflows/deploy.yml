@@ -1,0 +1,51 @@
+name: Deploy
+
+# Deploys the Worker itself (src/**) on merge to main -- separate from
+# .github/workflows/opentofu.yml (account-level infra) and
+# .github/workflows/ci.yml (the required PR check: typecheck/lint/test).
+#
+# Re-runs typecheck + unit tests here too, even though ci.yml already
+# required them to pass before merge: branch protection allows an admin
+# bypass (this is a solo-maintained repo), so a merge can land without
+# ci.yml actually having passed. This is the safety net for that case --
+# cheap insurance against deploying something broken.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "wrangler.jsonc"
+      - "package.json"
+      - "package-lock.json"
+      - "tsconfig.json"
+      - "vitest.config.ts"
+      - ".github/workflows/deploy.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - run: npm ci
+
+      - run: npm run typecheck
+
+      - run: npm test
+
+      # Only deploys code + non-secret vars/bindings already in
+      # wrangler.jsonc. Does not touch the YNAB_CLIENT_ID/SECRET/
+      # REDIRECT_URI Worker secrets set separately via `wrangler secret put`
+      # -- those persist across deploys untouched.
+      - run: npx wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_DEPLOY_API_TOKEN }}

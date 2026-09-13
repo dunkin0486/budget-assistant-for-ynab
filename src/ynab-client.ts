@@ -20,10 +20,7 @@ export const YNAB_AUTHORIZE_URL = "https://app.ynab.com/oauth/authorize";
 export class YnabClient {
   constructor(private accessToken: string) {}
 
-  private async request<T>(
-    path: string,
-    params?: Record<string, string | undefined>,
-  ): Promise<T> {
+  private async request<T>(path: string, params?: Record<string, string | undefined>): Promise<T> {
     const url = new URL(`${YNAB_API_BASE}${path}`);
     if (params) {
       for (const [key, value] of Object.entries(params)) {
@@ -100,10 +97,7 @@ export class YnabApiError extends Error {
   }
 }
 
-export async function exchangeYnabCode(
-  env: Env,
-  code: string,
-): Promise<YnabTokenResponse> {
+export async function exchangeYnabCode(env: Env, code: string): Promise<YnabTokenResponse> {
   return tokenRequest(env, {
     grant_type: "authorization_code",
     code,
@@ -111,20 +105,14 @@ export async function exchangeYnabCode(
   });
 }
 
-export async function refreshYnabToken(
-  env: Env,
-  refreshToken: string,
-): Promise<YnabTokenResponse> {
+export async function refreshYnabToken(env: Env, refreshToken: string): Promise<YnabTokenResponse> {
   return tokenRequest(env, {
     grant_type: "refresh_token",
     refresh_token: refreshToken,
   });
 }
 
-async function tokenRequest(
-  env: Env,
-  params: Record<string, string>,
-): Promise<YnabTokenResponse> {
+async function tokenRequest(env: Env, params: Record<string, string>): Promise<YnabTokenResponse> {
   const body = new URLSearchParams({
     client_id: env.YNAB_CLIENT_ID,
     client_secret: env.YNAB_CLIENT_SECRET,

@@ -1,0 +1,41 @@
+name: CI
+
+# Required status check on main (branch protection) -- runs unconditionally
+# on every PR and push to main, no paths filter. Unlike opentofu.yml's
+# jobs, this doesn't touch any cloud credentials and is fast, so there's
+# no cost to always running it -- and a paths-filtered trigger on a
+# required check is exactly the bug fixed in opentofu.yml (GitHub waits
+# forever for a status that a filtered trigger would never report on an
+# unrelated PR).
+
+on:
+  pull_request: {}
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - run: npm ci
+
+      - run: npm run typecheck
+
+      - run: npm run lint
+
+      - run: npm run test:coverage
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
