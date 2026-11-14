@@ -6,11 +6,14 @@
   // plain "plan-assistant-for-ynab") frees up the unsuffixed name for the
   // companion site (site/wrangler.jsonc), which is the more natural
   // *.workers.dev URL for a human to land on. Renaming a Worker's `name`
-  // here deploys it as a *new* Worker at a new *.workers.dev URL; the old
-  // "budget-assistant-for-ynab" Worker needs deleting from the dashboard
-  // once this is confirmed live, and YNAB_REDIRECT_URI (both the secret
-  // here and the redirect URI registered with YNAB) needs updating to
-  // match -- see README.md.
+  // here deploys it as a *new* Worker at a new *.workers.dev URL -- the
+  // old Worker needs deleting from the dashboard once this is confirmed
+  // live. YNAB_CLIENT_ID/YNAB_CLIENT_SECRET Worker secrets are set
+  // automatically on every deploy by .github/workflows/deploy.yml (from
+  // GitHub repo secrets of the same name) specifically so a rename like
+  // this doesn't silently leave a new Worker without them again. The
+  // YNAB_REDIRECT_URI var below and the redirect URI registered with
+  // YNAB's OAuth app both still need updating by hand to match.
   "name": "plan-assistant-for-ynab-worker",
   "main": "src/index.ts",
   "compatibility_date": "2026-09-01",
@@ -37,13 +40,20 @@
     }
   ],
 
-  // Non-secret config. Points at the companion site (site/, deployed by
-  // .github/workflows/deploy-site.yml as its own isolated Worker -- see
-  // site/wrangler.jsonc). Using the clean URLs (no .html) since the
-  // asset Worker 307-redirects the extensioned path to this one anyway.
+  // Non-secret config. PRIVACY_POLICY_URL/TERMS_URL point at the companion
+  // site (site/, deployed by .github/workflows/deploy-site.yml as its own
+  // isolated Worker -- see site/wrangler.jsonc); clean URLs (no .html)
+  // since the asset Worker 307-redirects the extensioned path to this one
+  // anyway. YNAB_REDIRECT_URI lives here rather than as a Worker secret --
+  // it isn't actually sensitive (it's a public URL, visible in YNAB's own
+  // OAuth app settings), so there's no reason to keep it out of git the
+  // way YNAB_CLIENT_ID/SECRET need to be. Must stay in sync with the
+  // redirect URI registered in YNAB's OAuth app settings -- update both
+  // together.
   "vars": {
     "PRIVACY_POLICY_URL": "https://plan-assistant-for-ynab.dunkin0486.workers.dev/privacy-policy",
-    "TERMS_URL": "https://plan-assistant-for-ynab.dunkin0486.workers.dev/terms-of-service"
+    "TERMS_URL": "https://plan-assistant-for-ynab.dunkin0486.workers.dev/terms-of-service",
+    "YNAB_REDIRECT_URI": "https://plan-assistant-for-ynab-worker.dunkin0486.workers.dev/callback"
   },
 
   "observability": {

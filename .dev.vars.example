@@ -1,6 +1,9 @@
 # Copy to .dev.vars for local `wrangler dev` (gitignored -- never commit
-# the real values). In production, set these with `wrangler secret put`
-# instead, per README.md.
+# the real values). In production: YNAB_CLIENT_ID/YNAB_CLIENT_SECRET are
+# set as Worker secrets automatically by .github/workflows/deploy.yml
+# (from GitHub repo secrets of the same name), and YNAB_REDIRECT_URI is a
+# plain var in wrangler.jsonc (not a secret -- it's just a public URL) --
+# see README.md.
 
 YNAB_CLIENT_ID=your-ynab-oauth-client-id
 YNAB_CLIENT_SECRET=your-ynab-oauth-client-secret
