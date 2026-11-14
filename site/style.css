@@ -116,6 +116,11 @@ nav.site-nav a.active {
   margin: 1.5rem 0 2rem;
 }
 
+.works-with-ynab {
+  display: block;
+  border-radius: 10px;
+}
+
 .button {
   display: inline-block;
   padding: 0.65rem 1.25rem;

@@ -153,6 +153,7 @@ function consentPageHtml(clientName: string, encodedRequest: string, env: Env): 
 <head><meta charset="utf-8"><title>Connect to YNAB</title>
 <style>
   body { font-family: system-ui, sans-serif; max-width: 32rem; margin: 3rem auto; padding: 0 1rem; color: #1a1a1a; }
+  img { border-radius: 10px; margin-bottom: 1rem; }
   .disclaimer { background: #fff8e6; border: 1px solid #e6c200; border-radius: 6px; padding: 1rem; margin: 1.5rem 0; }
   label { display: flex; gap: 0.5rem; align-items: flex-start; margin: 1.5rem 0; }
   button { background: #1a5f3f; color: white; border: none; border-radius: 6px; padding: 0.75rem 1.5rem; font-size: 1rem; cursor: pointer; }
@@ -161,6 +162,7 @@ function consentPageHtml(clientName: string, encodedRequest: string, env: Env): 
 </head>
 <body>
   <h1>Connect ${escapedClientName} to YNAB</h1>
+  <img src="https://api.ynab.com/papi/works_with_ynab.svg" alt="Works with YNAB" width="140" height="56">
   <p><strong>${escapedClientName}</strong> is requesting access to your YNAB plan through Plan Assistant for YNAB.</p>
   <div class="disclaimer">
     <strong>Plan Assistant for YNAB is not made, endorsed, or officially supported by YNAB in any way.</strong>
