@@ -4,7 +4,7 @@
   // no src, no KV/Durable Object bindings, nothing but static files. Keeps
   // this companion site fully isolated from the actual MCP server/OAuth
   // provider, so it can never touch OAUTH_KV or the live token store.
-  "name": "budget-assistant-for-ynab-site",
+  "name": "plan-assistant-for-ynab-site",
   "compatibility_date": "2026-09-01",
   "assets": {
     "directory": "."

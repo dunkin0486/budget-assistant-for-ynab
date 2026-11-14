@@ -1,8 +1,8 @@
 import type {
   Env,
-  YnabBudgetSummary,
   YnabCategory,
   YnabMonthDetail,
+  YnabPlanSummary,
   YnabTokenResponse,
   YnabTransaction,
 } from "./types.js";
@@ -42,9 +42,13 @@ export class YnabClient {
     return json.data;
   }
 
-  async listBudgets(): Promise<YnabBudgetSummary[]> {
-    const data = await this.request<{ budgets: YnabBudgetSummary[] }>("/budgets");
-    return data.budgets;
+  /** Note: YNAB renamed "budgets" to "plans" as of API v1.79.0 (2026-03) --
+   * the old /budgets/{budget_id} paths still work for backward
+   * compatibility but are no longer documented. This client targets the
+   * current /plans paths; see docs/ynab-guidelines-and-oauth.md. */
+  async listPlans(): Promise<YnabPlanSummary[]> {
+    const data = await this.request<{ plans: YnabPlanSummary[] }>("/plans");
+    return data.plans;
   }
 
   /** Used only to get a stable user id for the OAuth grant record -- never
@@ -55,31 +59,29 @@ export class YnabClient {
   }
 
   /** month is "current" or "YYYY-MM-01". */
-  async getBudgetMonth(budgetId: string, month: string): Promise<YnabMonthDetail> {
-    const data = await this.request<{ month: YnabMonthDetail }>(
-      `/budgets/${budgetId}/months/${month}`,
-    );
+  async getPlanMonth(planId: string, month: string): Promise<YnabMonthDetail> {
+    const data = await this.request<{ month: YnabMonthDetail }>(`/plans/${planId}/months/${month}`);
     return data.month;
   }
 
   async getCategoryForMonth(
-    budgetId: string,
+    planId: string,
     month: string,
     categoryId: string,
   ): Promise<YnabCategory> {
     const data = await this.request<{ category: YnabCategory }>(
-      `/budgets/${budgetId}/months/${month}/categories/${categoryId}`,
+      `/plans/${planId}/months/${month}/categories/${categoryId}`,
     );
     return data.category;
   }
 
   async listTransactions(
-    budgetId: string,
+    planId: string,
     opts: { categoryId?: string; sinceDate?: string },
   ): Promise<YnabTransaction[]> {
     const path = opts.categoryId
-      ? `/budgets/${budgetId}/categories/${opts.categoryId}/transactions`
-      : `/budgets/${budgetId}/transactions`;
+      ? `/plans/${planId}/categories/${opts.categoryId}/transactions`
+      : `/plans/${planId}/transactions`;
     const data = await this.request<{ transactions: YnabTransaction[] }>(path, {
       since_date: opts.sinceDate,
     });

@@ -34,7 +34,7 @@ export interface YnabProps extends Record<string, unknown> {
 }
 
 /** Minimal shape of the pieces of YNAB's API this project actually reads. */
-export interface YnabBudgetSummary {
+export interface YnabPlanSummary {
   id: string;
   name: string;
 }

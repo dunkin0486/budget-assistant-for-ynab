@@ -161,9 +161,9 @@ function consentPageHtml(clientName: string, encodedRequest: string, env: Env): 
 </head>
 <body>
   <h1>Connect ${escapedClientName} to YNAB</h1>
-  <p><strong>${escapedClientName}</strong> is requesting access to your YNAB budget through Budget Assistant for YNAB.</p>
+  <p><strong>${escapedClientName}</strong> is requesting access to your YNAB plan through Plan Assistant for YNAB.</p>
   <div class="disclaimer">
-    <strong>Budget Assistant for YNAB is not made, endorsed, or officially supported by YNAB in any way.</strong>
+    <strong>Plan Assistant for YNAB is not made, endorsed, or officially supported by YNAB in any way.</strong>
     It is an independent, third-party integration built against YNAB's public API.
     Read the <a href="${env.PRIVACY_POLICY_URL}" target="_blank">privacy policy</a> and
     <a href="${env.TERMS_URL}" target="_blank">terms of service</a> before continuing.

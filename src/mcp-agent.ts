@@ -18,12 +18,12 @@ const REFRESH_SKEW_MS = 60_000;
  * later phase, not implemented here.
  *
  * list_categories from the originally sketched tool surface is folded
- * into get_budget_month below, since YNAB's month-detail endpoint already
+ * into get_plan_month below, since YNAB's month-detail endpoint already
  * nests the full category list with budgeted/activity/balance -- a
  * separate call would just duplicate data this one already returns.
  */
 export class BudgetAssistantMCP extends McpAgent<Env, unknown, YnabProps> {
-  server = new McpServer({ name: "Budget Assistant for YNAB", version: "0.1.0" });
+  server = new McpServer({ name: "Plan Assistant for YNAB", version: "0.1.0" });
 
   /** Returns a YnabClient using a guaranteed-valid access token, refreshing
    * and persisting a new one first if the current one is expired or about
@@ -49,31 +49,31 @@ export class BudgetAssistantMCP extends McpAgent<Env, unknown, YnabProps> {
 
   async init() {
     this.server.registerTool(
-      "list_budgets",
+      "list_plans",
       {
-        title: "List YNAB budgets",
+        title: "List YNAB plans",
         description:
-          "List the YNAB budgets available to the connected account. Most users have one; some have several (e.g. personal + business). Call this first if you don't already know which budget_id to use for the other tools.",
+          "List the YNAB plans available to the connected account. Most users have one; some have several (e.g. personal + business). Call this first if you don't already know which plan_id to use for the other tools.",
         inputSchema: z.object({}),
         annotations: { readOnlyHint: true, openWorldHint: true },
       },
       async () => {
         const client = await this.getClient();
-        const budgets = await client.listBudgets();
+        const plans = await client.listPlans();
         return {
-          content: [{ type: "text", text: JSON.stringify(budgets, null, 2) }],
+          content: [{ type: "text", text: JSON.stringify(plans, null, 2) }],
         };
       },
     );
 
     this.server.registerTool(
-      "get_budget_month",
+      "get_plan_month",
       {
-        title: "Get budget status for a month",
+        title: "Get plan status for a month",
         description:
-          "Get Ready to Assign and every category's budgeted/spent/remaining balance for one month of a budget. Use month='current' for the present month, or 'YYYY-MM-01' for a specific past month. This covers both 'how much do I have left in X' and 'summarize my whole budget' questions.",
+          "Get Ready to Assign and every category's budgeted/spent/remaining balance for one month of a plan. Use month='current' for the present month, or 'YYYY-MM-01' for a specific past month. This covers both 'how much do I have left in X' and 'summarize my whole plan' questions.",
         inputSchema: z.object({
-          budget_id: z.string().describe("From list_budgets."),
+          plan_id: z.string().describe("From list_plans."),
           month: z
             .string()
             .default("current")
@@ -81,9 +81,9 @@ export class BudgetAssistantMCP extends McpAgent<Env, unknown, YnabProps> {
         }),
         annotations: { readOnlyHint: true, openWorldHint: true },
       },
-      async ({ budget_id, month }) => {
+      async ({ plan_id, month }) => {
         const client = await this.getClient();
-        const detail = await client.getBudgetMonth(budget_id, month);
+        const detail = await client.getPlanMonth(plan_id, month);
         return {
           content: [{ type: "text", text: JSON.stringify(detail, null, 2) }],
         };
@@ -95,10 +95,10 @@ export class BudgetAssistantMCP extends McpAgent<Env, unknown, YnabProps> {
       {
         title: "Get one category's history across months",
         description:
-          "Get a single category's budgeted/activity/balance for each of the last N months, oldest first. Use this for spending-trend questions ('why did I go over on dining the last three months') -- get the category_id from get_budget_month first.",
+          "Get a single category's budgeted/activity/balance for each of the last N months, oldest first. Use this for spending-trend questions ('why did I go over on dining the last three months') -- get the category_id from get_plan_month first.",
         inputSchema: z.object({
-          budget_id: z.string(),
-          category_id: z.string().describe("From get_budget_month's categories array."),
+          plan_id: z.string(),
+          category_id: z.string().describe("From get_plan_month's categories array."),
           months: z
             .number()
             .int()
@@ -109,11 +109,11 @@ export class BudgetAssistantMCP extends McpAgent<Env, unknown, YnabProps> {
         }),
         annotations: { readOnlyHint: true, openWorldHint: true },
       },
-      async ({ budget_id, category_id, months }) => {
+      async ({ plan_id, category_id, months }) => {
         const client = await this.getClient();
         const monthStrings = lastNMonths(months);
         const history = await Promise.all(
-          monthStrings.map((month) => client.getCategoryForMonth(budget_id, month, category_id)),
+          monthStrings.map((month) => client.getCategoryForMonth(plan_id, month, category_id)),
         );
         return {
           content: [
@@ -135,13 +135,13 @@ export class BudgetAssistantMCP extends McpAgent<Env, unknown, YnabProps> {
       {
         title: "List transactions",
         description:
-          "List transactions for a budget, optionally filtered to one category and/or a start date. Useful for finding what specifically drove a category's spending (e.g. after get_category_history shows a spike).",
+          "List transactions for a plan, optionally filtered to one category and/or a start date. Useful for finding what specifically drove a category's spending (e.g. after get_category_history shows a spike).",
         inputSchema: z.object({
-          budget_id: z.string(),
+          plan_id: z.string(),
           category_id: z
             .string()
             .optional()
-            .describe("Limit to one category, from get_budget_month."),
+            .describe("Limit to one category, from get_plan_month."),
           since_date: z
             .string()
             .optional()
@@ -149,9 +149,9 @@ export class BudgetAssistantMCP extends McpAgent<Env, unknown, YnabProps> {
         }),
         annotations: { readOnlyHint: true, openWorldHint: true },
       },
-      async ({ budget_id, category_id, since_date }) => {
+      async ({ plan_id, category_id, since_date }) => {
         const client = await this.getClient();
-        const transactions = await client.listTransactions(budget_id, {
+        const transactions = await client.listTransactions(plan_id, {
           categoryId: category_id,
           sinceDate: since_date,
         });

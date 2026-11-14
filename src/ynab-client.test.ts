@@ -21,21 +21,19 @@ describe("YnabClient", () => {
     vi.unstubAllGlobals();
   });
 
-  it("listBudgets sends a bearer token and unwraps the data envelope", async () => {
-    fetchMock.mockResolvedValue(
-      jsonResponse({ data: { budgets: [{ id: "b1", name: "My Budget" }] } }),
-    );
+  it("listPlans sends a bearer token and unwraps the data envelope", async () => {
+    fetchMock.mockResolvedValue(jsonResponse({ data: { plans: [{ id: "b1", name: "My Plan" }] } }));
 
     const client = new YnabClient("token-123");
-    const budgets = await client.listBudgets();
+    const plans = await client.listPlans();
 
-    expect(budgets).toEqual([{ id: "b1", name: "My Budget" }]);
+    expect(plans).toEqual([{ id: "b1", name: "My Plan" }]);
     const [url, init] = fetchMock.mock.calls[0]!;
-    expect(String(url)).toBe("https://api.ynab.com/v1/budgets");
+    expect(String(url)).toBe("https://api.ynab.com/v1/plans");
     expect(init.headers.Authorization).toBe("Bearer token-123");
   });
 
-  it("getBudgetMonth builds the path from budgetId and month", async () => {
+  it("getPlanMonth builds the path from planId and month", async () => {
     fetchMock.mockResolvedValue(
       jsonResponse({
         data: {
@@ -45,54 +43,54 @@ describe("YnabClient", () => {
     );
 
     const client = new YnabClient("t");
-    await client.getBudgetMonth("budget-1", "current");
+    await client.getPlanMonth("plan-1", "current");
 
     const [url] = fetchMock.mock.calls[0]!;
-    expect(String(url)).toBe("https://api.ynab.com/v1/budgets/budget-1/months/current");
+    expect(String(url)).toBe("https://api.ynab.com/v1/plans/plan-1/months/current");
   });
 
   it("listTransactions omits since_date when not provided", async () => {
     fetchMock.mockResolvedValue(jsonResponse({ data: { transactions: [] } }));
 
     const client = new YnabClient("t");
-    await client.listTransactions("budget-1", {});
+    await client.listTransactions("plan-1", {});
 
     const [url] = fetchMock.mock.calls[0]!;
-    expect(String(url)).toBe("https://api.ynab.com/v1/budgets/budget-1/transactions");
+    expect(String(url)).toBe("https://api.ynab.com/v1/plans/plan-1/transactions");
   });
 
   it("listTransactions includes since_date and scopes to a category when provided", async () => {
     fetchMock.mockResolvedValue(jsonResponse({ data: { transactions: [] } }));
 
     const client = new YnabClient("t");
-    await client.listTransactions("budget-1", { categoryId: "cat-1", sinceDate: "2026-01-01" });
+    await client.listTransactions("plan-1", { categoryId: "cat-1", sinceDate: "2026-01-01" });
 
     const [url] = fetchMock.mock.calls[0]!;
     expect(String(url)).toBe(
-      "https://api.ynab.com/v1/budgets/budget-1/categories/cat-1/transactions?since_date=2026-01-01",
+      "https://api.ynab.com/v1/plans/plan-1/categories/cat-1/transactions?since_date=2026-01-01",
     );
   });
 
   it("throws YnabApiError with status and path, without leaking the response body", async () => {
     fetchMock.mockResolvedValue(
-      new Response("sensitive budget data in the error body", { status: 429 }),
+      new Response("sensitive plan data in the error body", { status: 429 }),
     );
 
     const client = new YnabClient("t");
-    await expect(client.listBudgets()).rejects.toMatchObject({
+    await expect(client.listPlans()).rejects.toMatchObject({
       name: "YnabApiError",
       status: 429,
-      path: "/budgets",
+      path: "/plans",
     });
-    await expect(client.listBudgets()).rejects.not.toThrow(
+    await expect(client.listPlans()).rejects.not.toThrow(
       expect.objectContaining({ message: expect.stringContaining("sensitive") }),
     );
   });
 
   it("YnabApiError message includes status and path only", () => {
-    const error = new YnabApiError(404, "/budgets/x/months/current");
+    const error = new YnabApiError(404, "/plans/x/months/current");
     expect(error.message).toBe(
-      "YNAB API request to /budgets/x/months/current failed with status 404",
+      "YNAB API request to /plans/x/months/current failed with status 404",
     );
   });
 });

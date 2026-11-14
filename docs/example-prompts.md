@@ -8,8 +8,8 @@ minimal.
 
 ## Assumed minimal tool surface
 
-- `list_budgets` — the user's YNAB budgets (most users have one; some have several, e.g. personal + business).
-- `get_budget_month` — Ready to Assign, category balances, and Age of Money for a given month.
+- `list_plans` — the user's YNAB budgets (most users have one; some have several, e.g. personal + business).
+- `get_plan_month` — Ready to Assign, category balances, and Age of Money for a given month.
 - `list_categories` — category groups, per-category budgeted/activity/balance.
 - `list_transactions` — transactions filtered by category, payee, or date range.
 - `get_category_by_month` (range) — a category's budgeted/activity/balance across a span of months, for trend analysis.
@@ -19,7 +19,7 @@ minimal.
 **Persona:** Overwhelmed Beginner
 **Prompt:** *"How much do I have left to spend on groceries this month?"*
 
-**Expected flow:** `list_budgets` → `list_categories` (filtered/matched to "Groceries") → return the category's remaining balance, phrased in plain language, e.g. "You've spent $312 of your $450 groceries budget this month — $138 left." If the category is overspent, say so plainly and note it doesn't auto-fix itself (sets up the guided-assignment feature for a later phase, without doing it here).
+**Expected flow:** `list_plans` → `list_categories` (filtered/matched to "Groceries") → return the category's remaining balance, phrased in plain language, e.g. "You've spent $312 of your $450 groceries budget this month — $138 left." If the category is overspent, say so plainly and note it doesn't auto-fix itself (sets up the guided-assignment feature for a later phase, without doing it here).
 
 **Why it's a good review example:** single read call, no ambiguity, demonstrates the core "ask your budget a question" value prop in the simplest form.
 
@@ -28,7 +28,7 @@ minimal.
 **Persona:** Household Budget Manager
 **Prompt:** *"Give me a plain-English summary of my budget status right now — what's covered, what's tight, and what still needs money assigned."*
 
-**Expected flow:** `list_budgets` → `get_budget_month` (current month) → `list_categories` → synthesize into three buckets (fully funded / running low / unfunded or overspent) plus the current Ready to Assign figure. Response reads like a briefing, not a data dump — this is the "translate numbers for a partner" use case.
+**Expected flow:** `list_plans` → `get_plan_month` (current month) → `list_categories` → synthesize into three buckets (fully funded / running low / unfunded or overspent) plus the current Ready to Assign figure. Response reads like a briefing, not a data dump — this is the "translate numbers for a partner" use case.
 
 **Why it's a good review example:** exercises aggregation across multiple categories (not just one lookup), still fully read-only, shows the summarization value that a static YNAB report screen doesn't give you.
 

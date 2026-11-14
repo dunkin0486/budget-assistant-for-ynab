@@ -32,9 +32,9 @@ export default new OAuthProvider<Env>({
   // Update again once docs/website-and-contact-email.md's domain decision
   // (#5) lands and this moves to a custom domain instead of *.workers.dev.
   resourceMetadata: {
-    resource: "https://budget-assistant-for-ynab.dunkin0486.workers.dev/mcp",
-    authorization_servers: ["https://budget-assistant-for-ynab.dunkin0486.workers.dev"],
+    resource: "https://plan-assistant-for-ynab.dunkin0486.workers.dev/mcp",
+    authorization_servers: ["https://plan-assistant-for-ynab.dunkin0486.workers.dev"],
     scopes_supported: ["ynab:read"],
-    resource_name: "Budget Assistant for YNAB",
+    resource_name: "Plan Assistant for YNAB",
   },
 });
