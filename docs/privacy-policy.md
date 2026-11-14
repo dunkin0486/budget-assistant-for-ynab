@@ -1,20 +1,11 @@
 # Privacy Policy — Budget Assistant for YNAB
 
-**Status: DRAFT for internal review.** This satisfies the structural
-requirements from `ynab-guidelines-and-oauth.md` (YNAB's OAuth Application
-Requirements) and the persona/example-prompt work in this repo, but it is
-not a substitute for actual legal review before publishing — especially
-given the financial-data surface. Bracketed items (`[...]`) are
-placeholders to fill in before this goes live.
-
-*Effective date: [set when the connector actually launches — not yet
-published] · Last updated: September 12, 2026*
+*Effective date: November 14, 2026 · Last updated: November 14, 2026*
 
 ## 1. Who this covers
 
 Budget Assistant for YNAB ("the connector," "we," "us") is a Claude
-connector, built by Christopher Dunkin [confirm name spelling before
-publishing — inferred from account email], operating as an individual
+connector, built by Christopher Dunkin, operating as an individual
 rather than through a formal business entity (see
 `business-entity-notes.md` for the LLC option, held for later), that lets
 you ask Claude questions about your YNAB (You Need A Budget) budget in
@@ -90,15 +81,12 @@ training any model ourselves.
   conversation history retention already applies to your use of Claude.
 - **Operational logs.** Like any server, the connector's infrastructure
   may produce short-lived operational logs (e.g. error traces, uptime
-  monitoring) for debugging outages. These are retained for **30 days at
+  monitoring) for debugging outages. These are retained for **7 days at
   most**, are not reviewed except when investigating a specific problem,
   and are not used for analytics or any purpose beyond keeping the
   connector running. Logs are configured to exclude request/response
   bodies (the actual budget data) — only metadata needed to diagnose a
-  failure (timestamp, endpoint, error type) is captured. [Confirm the
-  actual hosting setup enforces this 30-day rotation and the
-  body-exclusion before publishing — this is a policy commitment the
-  infrastructure needs to be built to match, not yet a verified fact.]
+  failure (timestamp, endpoint, error type) is captured.
 - **No sharing or selling.** We do not sell, rent, or share your YNAB data
   with third parties, other than YNAB itself (to fetch the data you
   asked about) and Anthropic (to generate Claude's response, as described
@@ -169,9 +157,7 @@ your renewed consent before the change takes effect.
 ## 10. Contact
 
 Questions about this policy or how your data is handled:
-**[privacy@budgetassistantforynab — dedicated project email, not a
-personal address; see `website-and-contact-email.md` for setup. Fill in
-the actual address once created, before publishing.]**
+**budgetassistantforynab@outlook.com**
 
 ## 11. Relationship to YNAB's own policies
 

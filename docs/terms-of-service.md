@@ -1,19 +1,13 @@
 # Terms of Service — Budget Assistant for YNAB
 
-**Status: DRAFT for internal review** — same caveat as `privacy-policy.md`:
-not a substitute for actual legal review before publishing, especially for
-the liability-limiting clauses below. Bracketed items (`[...]`) are
-placeholders.
-
-*Effective date: [set when the connector actually launches — not yet
-published] · Last updated: September 12, 2026*
+*Effective date: November 14, 2026 · Last updated: November 14, 2026*
 
 ## 1. Acceptance
 
 By connecting your YNAB account to Budget Assistant for YNAB ("the
-connector," "we," "us"), built by Christopher Dunkin [confirm spelling],
-you agree to these Terms and to the `privacy-policy.md` referenced here by
-incorporation. If you don't agree, don't connect your account.
+connector," "we," "us"), built by Christopher Dunkin, you agree to these
+Terms and to the `privacy-policy.md` referenced here by incorporation. If
+you don't agree, don't connect your account.
 
 ## 2. What this is — and isn't
 
@@ -59,16 +53,14 @@ control; errors can originate from either.
 
 ## 6. Limitation of liability
 
-**To the fullest extent permitted by law, we are not liable for any
-indirect, incidental, special, consequential, or punitive damages, or any
-loss of data, profits, or financial harm, arising from your use of the
-connector** — including any financial decision made based on something
-Claude said while using it. Because this connector is provided free of
-charge, **our total liability for any claim arising from it is limited to
-$0.** [A dollar cap of $0 for a genuinely free service is a common and
-generally more defensible pattern than a nominal cap like $100 — confirm
-this holds in your actual jurisdiction, since a few states restrict how
-far liability can be disclaimed even in free-service agreements.]
+**To the fullest extent permitted by applicable law, in no event shall we
+be liable for any claim, damages, or other liability of any kind —
+whether in an action of contract, tort, or otherwise — arising from, out
+of, or in connection with the connector or your use of it**, including any
+indirect, incidental, special, consequential, or punitive damages, any
+loss of data or profits, and any financial decision made based on
+something Claude said while using it. This connector is provided free of
+charge, with no payment or other consideration flowing from you to us.
 
 ## 7. Indemnification
 
@@ -95,10 +87,8 @@ posted change means you accept the updated Terms.
 
 ## 10. Governing law
 
-These Terms are governed by the laws of the State of Iowa [confirm — this
-mirrors the state used for the LLC cost discussion in
-`business-entity-notes.md`; adjust if you're actually elsewhere], without
-regard to conflict-of-law rules.
+These Terms are governed by the laws of the State of Iowa, without regard
+to conflict-of-law rules.
 
 ## 11. Relationship to YNAB's own terms
 
@@ -108,6 +98,4 @@ Privacy Policy, independent of this connector.
 
 ## 12. Contact
 
-Questions about these Terms: **[dedicated project email — see
-`website-and-contact-email.md`; fill in the actual address once created,
-before publishing]**
+Questions about these Terms: **budgetassistantforynab@outlook.com**
