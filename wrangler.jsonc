@@ -26,13 +26,13 @@
     }
   ],
 
-  // Non-secret config. Update these once the companion website
-  // (docs/website-and-contact-email.md, #5) is live -- until then they
-  // point at the drafts in this repo's docs/ folder directly (the repo is
-  // public specifically so these are reachable).
+  // Non-secret config. Points at the companion site (site/, deployed by
+  // .github/workflows/deploy-site.yml as its own isolated Worker -- see
+  // site/wrangler.jsonc). Using the clean URLs (no .html) since the
+  // asset Worker 307-redirects the extensioned path to this one anyway.
   "vars": {
-    "PRIVACY_POLICY_URL": "https://github.com/dunkin0486/budget-assistant-for-ynab/blob/main/docs/privacy-policy.md",
-    "TERMS_URL": "https://github.com/dunkin0486/budget-assistant-for-ynab/blob/main/docs/terms-of-service.md"
+    "PRIVACY_POLICY_URL": "https://budget-assistant-for-ynab-site.dunkin0486.workers.dev/privacy-policy",
+    "TERMS_URL": "https://budget-assistant-for-ynab-site.dunkin0486.workers.dev/terms-of-service"
   },
 
   "observability": {
