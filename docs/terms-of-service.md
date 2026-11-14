@@ -98,4 +98,4 @@ Privacy Policy, independent of this connector.
 
 ## 12. Contact
 
-Questions about these Terms: **budgetassistantforynab@outlook.com**
+Questions about these Terms: **planassistantforynab@outlook.com**
