@@ -1,0 +1,40 @@
+name: Deploy Site
+
+# Deploys the companion static site (site/**) on merge to main -- a
+# separate, isolated Worker from the real MCP server/OAuth provider
+# deployed by deploy.yml. See site/wrangler.jsonc for why it's kept
+# separate (no KV/Durable Object bindings, nothing but static files).
+#
+# Deliberately not using the Cloudflare dashboard's Git-connected
+# "Workers Builds" integration for this -- that runs an arbitrary
+# `wrangler deploy` against whatever config it finds, which previously
+# picked up the repo root's wrangler.jsonc (the real backend) instead of
+# site/wrangler.jsonc. A plain, explicit GitHub Actions step avoids that
+# ambiguity entirely.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - ".github/workflows/deploy-site.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - run: npm ci
+
+      - run: npx wrangler deploy --config site/wrangler.jsonc
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_DEPLOY_API_TOKEN }}
