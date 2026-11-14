@@ -79,7 +79,7 @@ value).
 
 ## State
 
-Remote state in a Cloudflare R2 bucket (`budget-assistant-for-ynab-opentofu-state`),
+Remote state in a Cloudflare R2 bucket (`plan-assistant-for-ynab-opentofu-state`),
 via OpenTofu's S3-compatible backend (see `versions.tf`'s partial `backend
 "s3" {}` block, configured at `tofu init` time). Required once `tofu
 apply` moved into GitHub Actions (#15) — Actions runners are ephemeral, so
