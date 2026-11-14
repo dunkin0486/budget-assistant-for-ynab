@@ -2,13 +2,16 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   // Renamed from "budget-assistant-for-ynab" to match YNAB's own shift from
   // "budget" to "plan" terminology (API v1.79.0, March 2026) -- see
-  // docs/ynab-guidelines-and-oauth.md. Renaming a Worker's `name` here
-  // deploys it as a *new* Worker at a new *.workers.dev URL; the old
+  // docs/ynab-guidelines-and-oauth.md. The "-worker" suffix (rather than
+  // plain "plan-assistant-for-ynab") frees up the unsuffixed name for the
+  // companion site (site/wrangler.jsonc), which is the more natural
+  // *.workers.dev URL for a human to land on. Renaming a Worker's `name`
+  // here deploys it as a *new* Worker at a new *.workers.dev URL; the old
   // "budget-assistant-for-ynab" Worker needs deleting from the dashboard
   // once this is confirmed live, and YNAB_REDIRECT_URI (both the secret
   // here and the redirect URI registered with YNAB) needs updating to
   // match -- see README.md.
-  "name": "plan-assistant-for-ynab",
+  "name": "plan-assistant-for-ynab-worker",
   "main": "src/index.ts",
   "compatibility_date": "2026-09-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
@@ -39,8 +42,8 @@
   // site/wrangler.jsonc). Using the clean URLs (no .html) since the
   // asset Worker 307-redirects the extensioned path to this one anyway.
   "vars": {
-    "PRIVACY_POLICY_URL": "https://plan-assistant-for-ynab-site.dunkin0486.workers.dev/privacy-policy",
-    "TERMS_URL": "https://plan-assistant-for-ynab-site.dunkin0486.workers.dev/terms-of-service"
+    "PRIVACY_POLICY_URL": "https://plan-assistant-for-ynab.dunkin0486.workers.dev/privacy-policy",
+    "TERMS_URL": "https://plan-assistant-for-ynab.dunkin0486.workers.dev/terms-of-service"
   },
 
   "observability": {

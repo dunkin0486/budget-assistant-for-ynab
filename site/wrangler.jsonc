@@ -4,7 +4,10 @@
   // no src, no KV/Durable Object bindings, nothing but static files. Keeps
   // this companion site fully isolated from the actual MCP server/OAuth
   // provider, so it can never touch OAUTH_KV or the live token store.
-  "name": "plan-assistant-for-ynab-site",
+  // Takes the unsuffixed name (the MCP server itself is
+  // "plan-assistant-for-ynab-worker", see ../wrangler.jsonc) since this
+  // site is the more natural thing for a human to land on.
+  "name": "plan-assistant-for-ynab",
   "compatibility_date": "2026-09-01",
   "assets": {
     "directory": "."
