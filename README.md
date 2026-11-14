@@ -57,17 +57,18 @@ edits, or deletes anything — see `docs/privacy-policy.md`.
    npm run dev
    ```
 
-5. **Deploy**:
-   ```
-   npx wrangler secret put YNAB_CLIENT_ID
-   npx wrangler secret put YNAB_CLIENT_SECRET
-   npx wrangler secret put YNAB_REDIRECT_URI
-   npm run deploy
-   ```
-   Then update `wrangler.jsonc`'s `PRIVACY_POLICY_URL`/`TERMS_URL` and
-   `src/index.ts`'s `resourceMetadata` placeholders to the real deployed
-   URL (see `docs/website-and-contact-email.md` for the domain decision),
-   and redeploy.
+5. **Deploy**: set `YNAB_CLIENT_ID` and `YNAB_CLIENT_SECRET` as GitHub
+   repo secrets (`gh secret set YNAB_CLIENT_ID`, `gh secret set
+   YNAB_CLIENT_SECRET` — prompts securely, values never touch the
+   terminal history or any file) and update `wrangler.jsonc`'s
+   `YNAB_REDIRECT_URI`/`PRIVACY_POLICY_URL`/`TERMS_URL` vars and
+   `src/index.ts`'s `resourceMetadata` to the real deployed URL, then
+   push to `main` — `.github/workflows/deploy.yml` deploys the Worker
+   *and* sets the two secrets on it automatically on every deploy. This
+   is deliberate, not just first-time setup: it's what makes renaming
+   the Worker later (`wrangler.jsonc`'s `name` field) safe — the new
+   Worker that creates gets its secrets automatically instead of
+   silently deploying without them.
 
 ## Not yet implemented
 

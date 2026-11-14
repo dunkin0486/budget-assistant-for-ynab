@@ -42,10 +42,26 @@ jobs:
 
       - run: npm test
 
-      # Only deploys code + non-secret vars/bindings already in
-      # wrangler.jsonc. Does not touch the YNAB_CLIENT_ID/SECRET/
-      # REDIRECT_URI Worker secrets set separately via `wrangler secret put`
-      # -- those persist across deploys untouched.
       - run: npx wrangler deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_DEPLOY_API_TOKEN }}
+
+      # YNAB_CLIENT_ID/YNAB_CLIENT_SECRET are actual secrets (unlike
+      # YNAB_REDIRECT_URI, which is just a public URL and lives as a plain
+      # var in wrangler.jsonc instead) -- kept out of wrangler.jsonc and
+      # out of Terraform state (see infra/README.md) by setting them here
+      # from GitHub's own encrypted repo secrets, which are masked in logs
+      # and never appear in a PR diff/comment the way Terraform-managed
+      # secrets or vars committed to the repo would. Re-running this on
+      # every deploy is deliberate, not just a one-time setup step: it's
+      # what makes a Worker rename (`wrangler.jsonc`'s `name` field) safe
+      # -- the brand-new Worker that creates gets these secrets
+      # automatically instead of silently deploying without them, which is
+      # exactly what happened the first time this Worker was renamed.
+      - run: |
+          echo "$YNAB_CLIENT_ID" | npx wrangler secret put YNAB_CLIENT_ID
+          echo "$YNAB_CLIENT_SECRET" | npx wrangler secret put YNAB_CLIENT_SECRET
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_DEPLOY_API_TOKEN }}
+          YNAB_CLIENT_ID: ${{ secrets.YNAB_CLIENT_ID }}
+          YNAB_CLIENT_SECRET: ${{ secrets.YNAB_CLIENT_SECRET }}
