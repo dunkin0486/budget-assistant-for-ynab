@@ -157,7 +157,7 @@ your renewed consent before the change takes effect.
 ## 10. Contact
 
 Questions about this policy or how your data is handled:
-**budgetassistantforynab@outlook.com**
+**planassistantforynab@outlook.com**
 
 ## 11. Relationship to YNAB's own policies
 
