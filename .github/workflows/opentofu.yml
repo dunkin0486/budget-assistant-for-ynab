@@ -68,7 +68,7 @@ jobs:
         if: steps.changes.outputs.infra_changed == 'true'
         run: |
           cat > backend.hcl <<EOF
-          bucket                      = "budget-assistant-for-ynab-opentofu-state"
+          bucket                      = "plan-assistant-for-ynab-opentofu-state"
           key                         = "terraform.tfstate"
           region                      = "auto"
           skip_credentials_validation = true
@@ -141,7 +141,7 @@ jobs:
         if: steps.changes.outputs.infra_changed == 'true'
         run: |
           cat > backend.hcl <<EOF
-          bucket                      = "budget-assistant-for-ynab-opentofu-state"
+          bucket                      = "plan-assistant-for-ynab-opentofu-state"
           key                         = "terraform.tfstate"
           region                      = "auto"
           skip_credentials_validation = true
