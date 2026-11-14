@@ -1,15 +1,15 @@
 import { OAuthProvider } from "@cloudflare/workers-oauth-provider";
-import { BudgetAssistantMCP } from "./mcp-agent.js";
+import { PlanAssistantMCP } from "./mcp-agent.js";
 import oauthHandler from "./oauth-handler.js";
 import type { Env } from "./types.js";
 
 // Re-export so wrangler can find the Durable Object class named in
 // wrangler.jsonc's durable_objects.bindings[].class_name.
-export { BudgetAssistantMCP };
+export { PlanAssistantMCP };
 
 export default new OAuthProvider<Env>({
   apiRoute: "/mcp",
-  apiHandler: BudgetAssistantMCP.serve("/mcp"),
+  apiHandler: PlanAssistantMCP.serve("/mcp"),
   defaultHandler: oauthHandler,
 
   authorizeEndpoint: "/authorize",
@@ -32,9 +32,9 @@ export default new OAuthProvider<Env>({
   // Update again once docs/website-and-contact-email.md's domain decision
   // (#5) lands and this moves to a custom domain instead of *.workers.dev.
   resourceMetadata: {
-    resource: "https://budget-assistant-for-ynab.dunkin0486.workers.dev/mcp",
-    authorization_servers: ["https://budget-assistant-for-ynab.dunkin0486.workers.dev"],
+    resource: "https://plan-assistant-for-ynab-worker.dunkin0486.workers.dev/mcp",
+    authorization_servers: ["https://plan-assistant-for-ynab-worker.dunkin0486.workers.dev"],
     scopes_supported: ["ynab:read"],
-    resource_name: "Budget Assistant for YNAB",
+    resource_name: "Plan Assistant for YNAB",
   },
 });

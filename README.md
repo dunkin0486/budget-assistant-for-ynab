@@ -1,8 +1,8 @@
-# Budget Assistant for YNAB — MCP Server
+# Plan Assistant for YNAB — MCP Server
 
-Remote MCP server that lets Claude answer questions about a YNAB budget.
+Remote MCP server that lets Claude answer questions about a YNAB plan.
 Read-only MVP (phase 1 of `docs/personas-and-use-cases.md`):
-`list_budgets`, `get_budget_month`, `get_category_history`,
+`list_plans`, `get_plan_month`, `get_category_history`,
 `list_transactions`. None of these call a YNAB endpoint that creates,
 edits, or deletes anything — see `docs/privacy-policy.md`.
 
@@ -35,7 +35,7 @@ edits, or deletes anything — see `docs/privacy-policy.md`.
 
 1. **Register the OAuth app with YNAB** (developer settings on your YNAB
    account). Name it in a branding-compliant way — see
-   `docs/ynab-guidelines-and-oauth.md` (e.g. "Budget Assistant for YNAB",
+   `docs/ynab-guidelines-and-oauth.md` (e.g. "Plan Assistant for YNAB",
    not "YNAB Assistant"). Set its redirect URI to
    `https://<your-worker-url>/callback` (or `http://localhost:8787/callback`
    for local dev). Note: new apps start in YNAB's Restricted Mode
@@ -71,7 +71,7 @@ edits, or deletes anything — see `docs/privacy-policy.md`.
 
 ## Not yet implemented
 
-- Guided category assignment and budget-setup/planning (phases 3-4 of
+- Guided category assignment and plan setup assistance (phases 3-4 of
   `docs/personas-and-use-cases.md`) — deliberately out of scope until the
   read-only phases are validated.
 - The dry-run confirmation-token pattern documented in

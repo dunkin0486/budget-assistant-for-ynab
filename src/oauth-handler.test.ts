@@ -33,7 +33,7 @@ function makeEnv(overrides: Partial<Env> = {}): Env {
     } as never,
     YNAB_CLIENT_ID: "ynab-client-id",
     YNAB_CLIENT_SECRET: "ynab-client-secret",
-    YNAB_REDIRECT_URI: "https://budget-assistant-for-ynab.dunkin0486.workers.dev/callback",
+    YNAB_REDIRECT_URI: "https://plan-assistant-for-ynab-worker.dunkin0486.workers.dev/callback",
     PRIVACY_POLICY_URL: "https://example.com/privacy",
     TERMS_URL: "https://example.com/terms",
     ...overrides,

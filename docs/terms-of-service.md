@@ -1,24 +1,24 @@
-# Terms of Service — Budget Assistant for YNAB
+# Terms of Service — Plan Assistant for YNAB
 
 *Effective date: November 14, 2026 · Last updated: November 14, 2026*
 
 ## 1. Acceptance
 
-By connecting your YNAB account to Budget Assistant for YNAB ("the
+By connecting your YNAB account to Plan Assistant for YNAB ("the
 connector," "we," "us"), built by Christopher Dunkin, you agree to these
 Terms and to the `privacy-policy.md` referenced here by incorporation. If
 you don't agree, don't connect your account.
 
 ## 2. What this is — and isn't
 
-Budget Assistant for YNAB is a free, independent, third-party Claude
-connector that lets you ask Claude questions about your YNAB budget in
+Plan Assistant for YNAB is a free, independent, third-party Claude
+connector that lets you ask Claude questions about your YNAB plan in
 natural language.
 
 **It is not made, endorsed, or officially supported by YNAB in any way.**
 It is not a financial advisor, and nothing it says is financial, tax, or
 legal advice — it summarizes and explains data already in your YNAB
-budget, based on what you asked. Decisions about your money are yours;
+plan, based on what you asked. Decisions about your money are yours;
 verify anything important directly in YNAB before acting on it.
 
 ## 3. Eligibility
@@ -92,7 +92,7 @@ to conflict-of-law rules.
 
 ## 11. Relationship to YNAB's own terms
 
-These Terms govern only your use of Budget Assistant for YNAB. Your YNAB
+These Terms govern only your use of Plan Assistant for YNAB. Your YNAB
 account itself remains governed by YNAB's own Terms of Service and
 Privacy Policy, independent of this connector.
 

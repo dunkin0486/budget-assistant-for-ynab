@@ -48,7 +48,7 @@ describe("deployed Worker (acceptance)", () => {
     expect(response.status).toBe(200);
 
     const metadata = (await response.json()) as Record<string, unknown>;
-    expect(metadata.resource_name).toBe("Budget Assistant for YNAB");
+    expect(metadata.resource_name).toBe("Plan Assistant for YNAB");
     expect(metadata.scopes_supported).toContain("ynab:read");
   });
 });

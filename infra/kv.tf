@@ -6,5 +6,11 @@
 # workflow.
 resource "cloudflare_workers_kv_namespace" "oauth_kv" {
   account_id = var.cloudflare_account_id
-  title      = "budget-assistant-for-ynab-oauth"
+  # Cosmetic rename only (matches the Plan Assistant for YNAB rebrand) --
+  # Cloudflare's KV namespace rename API changes the display title in
+  # place; it does not change the namespace id or its stored data. Confirm
+  # the `tofu plan` posted on this PR shows an in-place update, not a
+  # destroy/recreate, before merging -- this namespace holds live OAuth
+  # token data (OAUTH_KV in ../wrangler.jsonc).
+  title = "plan-assistant-for-ynab-oauth"
 }

@@ -1,18 +1,18 @@
-# Privacy Policy — Budget Assistant for YNAB
+# Privacy Policy — Plan Assistant for YNAB
 
 *Effective date: November 14, 2026 · Last updated: November 14, 2026*
 
 ## 1. Who this covers
 
-Budget Assistant for YNAB ("the connector," "we," "us") is a Claude
+Plan Assistant for YNAB ("the connector," "we," "us") is a Claude
 connector, built by Christopher Dunkin, operating as an individual
 rather than through a formal business entity (see
 `business-entity-notes.md` for the LLC option, held for later), that lets
-you ask Claude questions about your YNAB (You Need A Budget) budget in
+you ask Claude questions about your YNAB (You Need A Budget) plan in
 natural language. It is offered free of charge, and we do not monetize
 your data as an alternative source of revenue.
 
-**Budget Assistant for YNAB is not made, endorsed, or officially supported
+**Plan Assistant for YNAB is not made, endorsed, or officially supported
 by YNAB in any way.** It is an independent, third-party integration built
 against YNAB's public API.
 
@@ -20,10 +20,10 @@ against YNAB's public API.
 
 When you connect your YNAB account, you grant the connector an OAuth
 access token. That token, by YNAB's design, carries full read and write
-access to your YNAB budget data — YNAB does not offer a narrower,
-read-only OAuth scope. **Budget Assistant for YNAB's own tools currently
+access to your YNAB plan data — YNAB does not offer a narrower,
+read-only OAuth scope. **Plan Assistant for YNAB's own tools currently
 only read data; they do not call any YNAB endpoint that creates, edits, or
-deletes anything in your budget**, regardless of what the token itself
+deletes anything in your plan**, regardless of what the token itself
 would technically permit. If that changes in a future version (e.g. a
 guided category-assignment feature), this policy will be updated first and
 any write action will require your explicit, in-conversation confirmation
@@ -31,7 +31,7 @@ before it executes.
 
 Depending on what you ask Claude, the connector may read:
 
-- Budget names and settings
+- Plan names and settings
 - Account names and balances
 - Category groups, categories, budgeted amounts, activity, and balances
 - Payee names
@@ -49,7 +49,7 @@ about.
 
 Data read from YNAB is used solely to generate Claude's response to your
 question in that conversation — for example, telling you your remaining
-grocery budget, summarizing your overall budget status, or explaining a
+grocery budget, summarizing your overall plan status, or explaining a
 spending trend. It is not used for advertising, profiling, resale, or any
 purpose beyond answering what you asked.
 
@@ -74,8 +74,8 @@ training any model ourselves.
   you don't have to re-authenticate every time. They are never logged in
   plaintext or shared outside the systems needed to make authenticated
   requests to YNAB on your behalf.
-- **Budget data.** We do not maintain a persistent copy or database of
-  your YNAB budget, categories, or transactions. Data fetched from YNAB to
+- **Plan data.** We do not maintain a persistent copy or database of
+  your YNAB plan, categories, or transactions. Data fetched from YNAB to
   answer a question exists only for the duration of that request/response
   cycle and is not retained afterward, beyond whatever standard
   conversation history retention already applies to your use of Claude.
@@ -85,7 +85,7 @@ training any model ourselves.
   most**, are not reviewed except when investigating a specific problem,
   and are not used for analytics or any purpose beyond keeping the
   connector running. Logs are configured to exclude request/response
-  bodies (the actual budget data) — only metadata needed to diagnose a
+  bodies (the actual plan data) — only metadata needed to diagnose a
   failure (timestamp, endpoint, error type) is captured.
 - **No sharing or selling.** We do not sell, rent, or share your YNAB data
   with third parties, other than YNAB itself (to fetch the data you
@@ -96,7 +96,7 @@ training any model ourselves.
 
 ## 5. Your control over access
 
-- You can revoke Budget Assistant for YNAB's access at any time from your
+- You can revoke Plan Assistant for YNAB's access at any time from your
   YNAB account's connected-applications settings, or by disconnecting the
   connector from within Claude. Revoking access immediately invalidates
   the stored token; we do not retain a usable copy after revocation.
@@ -107,14 +107,14 @@ training any model ourselves.
 
 ## 6. Your rights
 
-Since we don't retain your budget data (Section 4), most of what there is
+Since we don't retain your plan data (Section 4), most of what there is
 to control lives in the OAuth connection itself:
 
 - **Access/know what we hold.** The only persistent data we hold about you
-  is your encrypted OAuth token pair — no separate profile or budget copy.
+  is your encrypted OAuth token pair — no separate profile or plan copy.
   You can ask (Section 10) for confirmation of what's stored.
 - **Delete.** Revoking access (Section 5) deletes the stored token. There
-  is no budget data left over to separately delete.
+  is no plan data left over to separately delete.
 - **Withdraw consent.** Connecting your YNAB account is consent to this
   policy; you can withdraw it at any time by disconnecting, with no effect
   on your underlying YNAB account.
@@ -141,7 +141,7 @@ into scope for those laws.]
 
 ## 8. Children's privacy
 
-Using Budget Assistant for YNAB requires an existing YNAB account, and
+Using Plan Assistant for YNAB requires an existing YNAB account, and
 YNAB's own terms restrict accounts to users old enough to enter a binding
 agreement in their jurisdiction — we rely on that gate rather than
 separately verifying age. The connector is not directed at children, and
@@ -161,6 +161,6 @@ Questions about this policy or how your data is handled:
 
 ## 11. Relationship to YNAB's own policies
 
-This policy covers only what Budget Assistant for YNAB does with your
-data. YNAB's own handling of your budget data is governed by YNAB's
+This policy covers only what Plan Assistant for YNAB does with your
+data. YNAB's own handling of your plan data is governed by YNAB's
 Privacy Policy and Terms of Service, independent of this connector.
