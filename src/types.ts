@@ -21,7 +21,7 @@ export interface Env {
 /**
  * Handed to the MCP Durable Object by OAuthProvider after the user
  * completes the YNAB OAuth flow. This is the *initial* YNAB token pair;
- * BudgetAssistantMCP keeps its own copy in Durable Object storage and
+ * PlanAssistantMCP keeps its own copy in Durable Object storage and
  * refreshes it in place (via updateProps) as it expires, since YNAB
  * access tokens only live ~2 hours and this project's own OAuthProvider
  * grant lifetime is independent of that.

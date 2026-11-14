@@ -1,15 +1,15 @@
 import { OAuthProvider } from "@cloudflare/workers-oauth-provider";
-import { BudgetAssistantMCP } from "./mcp-agent.js";
+import { PlanAssistantMCP } from "./mcp-agent.js";
 import oauthHandler from "./oauth-handler.js";
 import type { Env } from "./types.js";
 
 // Re-export so wrangler can find the Durable Object class named in
 // wrangler.jsonc's durable_objects.bindings[].class_name.
-export { BudgetAssistantMCP };
+export { PlanAssistantMCP };
 
 export default new OAuthProvider<Env>({
   apiRoute: "/mcp",
-  apiHandler: BudgetAssistantMCP.serve("/mcp"),
+  apiHandler: PlanAssistantMCP.serve("/mcp"),
   defaultHandler: oauthHandler,
 
   authorizeEndpoint: "/authorize",

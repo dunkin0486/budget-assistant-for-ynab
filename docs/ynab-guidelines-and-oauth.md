@@ -52,7 +52,7 @@ the Restricted Mode review lead time and the branding-compliant name.
 ## OAuth scopes
 
 **YNAB has no granular OAuth scopes — no read-only option exists.** Every
-access token grants full read+write access to the user's entire budget.
+access token grants full read+write access to the user's entire plan.
 This changes the assumption in `example-prompts.md` ("read-only OAuth scope
 if supported") — it isn't supported. Consequences:
 
@@ -77,7 +77,7 @@ if supported") — it isn't supported. Consequences:
 
 - Add "apply for Restricted Mode removal" as an explicit early milestone,
   run in parallel with development — not a launch-week task.
-- Name the connector in a YNAB-branding-compliant way (e.g. "Budget
+- Name the connector in a YNAB-branding-compliant way (e.g. "Plan
   Assistant for YNAB," not "YNAB Assistant").
 - Privacy policy must disclose that the OAuth token is full-access by
   YNAB's design, and that our tool surface — not YNAB's scope system — is

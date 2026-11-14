@@ -4,7 +4,7 @@
 
 Two free options, in order of effort:
 
-1. **Dedicated free Gmail address** — e.g. `budgetassistantforynab@gmail.com`
+1. **Dedicated free Gmail address** — e.g. `planassistantforynab@gmail.com`
    (or similar, matching the connector's branding-compliant name from
    `ynab-guidelines-and-oauth.md`). Zero cost, no domain needed, takes five
    minutes to set up, and immediately separates this project's inbox from
@@ -15,7 +15,7 @@ Two free options, in order of effort:
    have a Cloudflare account handling DNS/domain registration, this is
    more immediately available than originally scoped: Cloudflare's Email
    Routing is free and lets you create addresses like
-   `privacy@budgetassistantforynab.com` that forward to an inbox you
+   `privacy@planassistantforynab.com` that forward to an inbox you
    already control (the new Gmail from option 1, ideally — not your
    personal one). No per-address fees, unlimited addresses on the domain,
    and it works whether that domain is a new registration or an existing
@@ -38,7 +38,7 @@ the Beginner and Household Manager personas need onboarding help, and
 Anthropic's directory review benefits from a real, public location for
 example prompts beyond the 3 required minimum — a place to show off
 workflow ideas the four use cases actually enable (the guided-assignment
-and budget-planning phases especially benefit from worked examples once
+and plan-setup phases especially benefit from worked examples once
 they exist, since "guided category assignment" is meaningless without
 seeing what a good prompt for it looks like).
 
@@ -70,12 +70,12 @@ clear advantage to it here.)
 Two paths, given the existing Cloudflare account:
 
 1. **Use a subdomain of a domain you already own** (e.g.
-   `budgetassistant.yourexistingdomain.com`) — **$0 additional cost**,
+   `planassistant.yourexistingdomain.com`) — **$0 additional cost**,
    works immediately with Cloudflare Pages + Email Routing on that same
    account, no new registration needed at all.
 2. **Register a new domain via Cloudflare Registrar** — since you already
    register domains there, this is the cheapest path if you want a
-   dedicated name like `budgetassistantforynab.com`: Cloudflare sells
+   dedicated name like `planassistantforynab.com`: Cloudflare sells
    domains **at cost with no markup** — currently **~$10.44/year for
    `.com`** (rising slightly to ~$11.15/year in November 2026 following a
    wholesale registry price increase), with free WHOIS privacy included

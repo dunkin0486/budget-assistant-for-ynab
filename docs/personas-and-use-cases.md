@@ -3,13 +3,13 @@
 ## Prior findings (context)
 
 - No existing YNAB connector in Anthropic's MCP registry. Closest alternatives are PocketSmith and Era Context (general finance apps), neither YNAB-specific.
-- YNAB's public API (api.ynab.com) is solid: REST/JSON, OAuth 2.0, official JS/Ruby SDKs, a starter kit repo. Covers budgets, accounts, categories, transactions — including Ready to Assign balances and category assignment writes.
+- YNAB's public API (api.ynab.com) is solid: REST/JSON, OAuth 2.0, official JS/Ruby SDKs, a starter kit repo. Covers plans, accounts, categories, transactions — including Ready to Assign balances and category assignment writes.
 - Anthropic's Software Directory Policy has no hard blocker: prohibits software that transfers money/executes financial transactions, but a YNAB connector categorizes already-existing dollars rather than moving money between real accounts. Requires OAuth 2.0, tool annotations (title + readOnlyHint/destructiveHint), a privacy policy, minimal data collection, a test account, and 3 example prompts for review. Expect closer privacy scrutiny given the financial-data surface even without transaction/transfer capability.
 
 ## Decisions going in
 
 - Target user: **general YNAB users**, not just a personal tool or one narrow budgeting style.
-- Core use cases to support: **conversational Q&A, guided category assignment, spending analysis & insights, budget setup/planning assistance.**
+- Core use cases to support: **conversational Q&A, guided category assignment, spending analysis & insights, plan setup assistance.**
 
 **Update — see `competitive-landscape.md`:** at least 15 self-hosted YNAB
 MCP servers already exist and collectively cover all four use cases below,
@@ -28,7 +28,7 @@ full-access personal token in the first place.
 ### 1. The Overwhelmed Beginner
 New to YNAB, hasn't internalized "give every dollar a job" or "true expenses." Money sits unassigned in Ready to Assign, categories are either empty or mysterious, check-ins are sporadic.
 - Wants: plain-language orientation ("what should I do with this $340 I haven't assigned yet?"), reassurance they're doing it right.
-- Primary use case: conversational Q&A, secondarily budget setup assistance.
+- Primary use case: conversational Q&A, secondarily plan setup assistance.
 
 ### 2. The Tight-Budget / Debt-Payoff User
 Every dollar matters, categories go negative often, needs to "roll with the punches" by pulling slack from one category to cover another.
@@ -40,15 +40,15 @@ Years of YNAB history, multiple accounts, cares about age of money and long-run 
 - Wants: ad hoc, narrative analysis — "why did I go over on groceries the last three months" — that a static report can't produce.
 - Primary use case: spending analysis & insights, secondarily conversational Q&A.
 
-### 4. The Household Budget Manager
-Runs the budget for a family, needs to translate numbers into plain language for a partner, plans for true expenses (car repair, holidays) and per-category savings goals.
+### 4. The Household Plan Manager
+Runs the plan for a family, needs to translate numbers into plain language for a partner, plans for true expenses (car repair, holidays) and per-category savings goals.
 - Wants: summaries in plain English, help planning goal contributions.
-- Primary use case: conversational Q&A, secondarily budget setup/planning.
+- Primary use case: conversational Q&A, secondarily plan setup assistance.
 
 ### 5. The Irregular-Income User (freelancer/business)
 Ready to Assign varies wildly month to month.
 - Wants: help prioritizing which categories get funded first when income is unpredictable.
-- Primary use case: budget setup/planning assistance, secondarily guided category assignment.
+- Primary use case: plan setup assistance, secondarily guided category assignment.
 
 ## Use case → persona mapping
 
@@ -57,14 +57,14 @@ Ready to Assign varies wildly month to month.
 | Conversational Q&A | All five — universal | Read-only, lowest scrutiny |
 | Spending analysis & insights | Optimizer, Household Manager | Read-only, more aggregation logic |
 | Guided category assignment | Tight-Budget, Irregular-Income | Read+write, needs explicit confirmation before moving money |
-| Budget setup/planning | Beginner, Household Manager, Irregular-Income | Mostly write, most novel, least proven demand |
+| Plan setup assistance | Beginner, Household Manager, Irregular-Income | Mostly write, most novel, least proven demand |
 
 ## Recommended build sequence
 
 1. **Conversational Q&A** — serves every persona, read-only, fastest through review, and the foundation the other three build on.
 2. **Spending analysis & insights** — still read-only, but the real differentiator versus YNAB's native (static) reports.
 3. **Guided category assignment** — highest-value, hardest-to-replicate feature (nobody else does this), but a write action against financial-category data. Requires mandatory confirmation of the specific move before executing, a `destructiveHint` annotation, and no auto-execution on ambiguous requests.
-4. **Budget setup/planning assistance** — most speculative use case, least clear demand signal; benefits from validating the other three with real users first.
+4. **Plan setup assistance** — most speculative use case, least clear demand signal; benefits from validating the other three with real users first.
 
 Rationale: this keeps the MVP entirely read-only (lowest privacy scrutiny, consistent with the "categorizing existing dollars, not moving money" framing from the policy review), while the roadmap builds toward the write-capable feature that is actually novel versus existing finance connectors.
 

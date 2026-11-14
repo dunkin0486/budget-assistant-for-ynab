@@ -4,7 +4,7 @@
 
 At least 15 YNAB MCP servers already exist on GitHub. Between them, all four
 of our target use cases (conversational Q&A, spending analysis, guided
-category assignment, budget setup/planning) are already implemented
+category assignment, plan setup assistance) are already implemented
 somewhere, some with better safety UX than our own sketch (undo support on
 every write).
 
@@ -25,7 +25,7 @@ This is a crowded space at the feature level, not a green field.
 - **OAuth.** Every one found uses a personal access token pasted into a
   local config file, not YNAB's OAuth flow. That means: no consent screen,
   no revocable per-app grant, no scoped session — the user hands over a
-  long-lived token with full read+write access to their entire budget,
+  long-lived token with full read+write access to their entire plan,
   manually, to a script they usually haven't audited.
 - **Official distribution.** All are self-hosted (`npx`/`git clone` +
   manual MCP config edit). None are in Anthropic's MCP registry or
@@ -51,7 +51,7 @@ This reframes the project from *"build the functionality"* to *"be the
 trustworthy distribution of functionality that already exists in the
 wild."* It doesn't change the MVP scope decided in
 `personas-and-use-cases.md` (read-only Q&A + analysis first, guided
-assignment and budget planning later) — it changes why that scope matters:
+assignment and plan setup assistance later) — it changes why that scope matters:
 the read-only-first sequencing is now also the safest on-ramp for
 non-technical users who would never risk a self-hosted, full-access token
 in the first place.

@@ -22,7 +22,7 @@ const REFRESH_SKEW_MS = 60_000;
  * nests the full category list with budgeted/activity/balance -- a
  * separate call would just duplicate data this one already returns.
  */
-export class BudgetAssistantMCP extends McpAgent<Env, unknown, YnabProps> {
+export class PlanAssistantMCP extends McpAgent<Env, unknown, YnabProps> {
   server = new McpServer({ name: "Plan Assistant for YNAB", version: "0.1.0" });
 
   /** Returns a YnabClient using a guaranteed-valid access token, refreshing

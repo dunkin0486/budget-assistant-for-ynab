@@ -71,7 +71,7 @@ edits, or deletes anything — see `docs/privacy-policy.md`.
 
 ## Not yet implemented
 
-- Guided category assignment and budget-setup/planning (phases 3-4 of
+- Guided category assignment and plan setup assistance (phases 3-4 of
   `docs/personas-and-use-cases.md`) — deliberately out of scope until the
   read-only phases are validated.
 - The dry-run confirmation-token pattern documented in
