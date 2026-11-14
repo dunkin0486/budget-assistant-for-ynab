@@ -38,10 +38,12 @@
   "observability": {
     "logs": {
       "enabled": true
-      // See docs/privacy-policy.md's 30-day log retention commitment --
-      // configure retention in the Cloudflare dashboard (Workers Logs)
-      // to match. Code in this project deliberately never logs request/
-      // response bodies -- see src/ynab-client.ts.
+      // Matches docs/privacy-policy.md's "7 days at most" log retention
+      // commitment -- Workers Logs retention is fixed at 7 days (not
+      // currently configurable) on both Free and Paid Cloudflare plans,
+      // so no dashboard setting is needed to satisfy this. Code in this
+      // project deliberately never logs request/response bodies -- see
+      // src/ynab-client.ts.
     }
   }
 }
